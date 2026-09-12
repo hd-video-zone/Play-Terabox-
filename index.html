@@ -1,176 +1,148 @@
 <!DOCTYPE html>
-<html lang="gu">
+<html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="admaven-placement" content="BqdCEpdsG">
-    <title>Stream Player</title>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Player</title>
+    <title>Play Video - Fast Streaming</title>
+
+    <!-- Ad-Maven verification meta tag -->
+    <meta name="admaven-site-verification" content="admaven">
+
+    <!-- Ad-Maven Popunder / Auto-Redirect Script (જો હોય તો અહીં પેસ્ટ કરવો) -->
 
     <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
         body {
-            background-color: #0b0f19;
+            background-color: #0f172a;
             color: #ffffff;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-        }
-        .container {
-            background: #151f32;
-            padding: 24px 20px;
-            border-radius: 16px;
-            max-width: 420px;
-            width: 100%;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            border: 1px solid #233554;
         }
-        h2 { margin: 0 0 10px 0; color: #38bdf8; font-size: 20px; }
-        p { color: #94a3b8; font-size: 14px; margin: 0 0 18px 0; line-height: 1.5; }
-        
-        .timer-badge {
+        .card {
+            background-color: #1e293b;
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #38bdf8;
+        }
+        p {
+            font-size: 15px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .timer-box {
+            font-size: 42px;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 20px;
+        }
+        .btn {
             display: inline-block;
-            font-size: 13px;
-            color: #fca5a5;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin: 15px 0;
-        }
-
-        .smart-btn {
-            display: block;
             width: 100%;
             padding: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border: none;
             border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        .final-btn {
-            display: none;
-            width: 100%;
-            padding: 14px;
             font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            background: #10b981;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
+            font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
         }
-
-        .ad-box {
-            margin: 15px 0;
-            background: rgba(255,255,255,0.03);
+        .btn-disabled {
+            background-color: #475569;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+        .btn-active {
+            background-color: #22c55e;
+            color: #ffffff;
+        }
+        .ad-slot {
+            margin: 18px 0;
             padding: 12px;
+            background-color: #0f172a;
+            border: 1px dashed #475569;
             border-radius: 8px;
-            border: 1px dashed #334155;
-            min-height: 50px;
+            min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #64748b;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>🎬 Play Video Stream</h2>
-        <p id="instruction-text">કૃપા કરીને નીચે ક્લિક કરીને ચકાસણી પૂર્ણ કરો:</p>
+    <div class="card">
+        <h2>🎬 Video Link Ready</h2>
+        <p>તમારો વિડીયો લોડ થઈ રહ્યો છે. કૃપા કરીને થોડી સેકન્ડ રાહ જુઓ...</p>
 
-        <div class="ad-box">
-            <small style="color: #64748b;">Advertisement</small>
+        <!-- Banner Ad Slot 1 -->
+        <div class="ad-slot">
+            <!-- Ad-Maven Banner Script 1 અહીં પેસ્ટ કરવો -->
+            <span>Advertisement</span>
         </div>
 
-        <!-- Adsterra Smartlink Button -->
-        <a id="smart-link-btn" href="https://www.profitableratecpmnetwork.com/gsvzik9m?key=2167f73f7001d541144988b0d01bc331" target="_blank" class="smart-btn">
-            🤖 I Am Not a Robot - Verify Please
-        </a>
+        <div class="timer-box" id="timer">15</div>
 
-        <!-- 15s Timer -->
-        <div id="countdown" class="timer-badge">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
-
-        <!-- Terabox Button: ક્લિક કરવાથી Monetag ખુલશે અને પાછળ Terabox સેટ થશે -->
-        <button id="final-btn" class="final-btn">
-            ▶️ Open Video in Terabox
-        </button>
-
-        <div class="ad-box">
-            <small style="color: #64748b;">Advertisement</small>
+        <!-- Banner Ad Slot 2 -->
+        <div class="ad-slot">
+            <!-- Ad-Maven Banner Script 2 અહીં પેસ્ટ કરવો -->
+            <span>Advertisement</span>
         </div>
+
+        <a id="actionBtn" class="btn btn-disabled" href="#">કૃપા કરીને રાહ જુઓ...</a>
     </div>
 
     <script>
+        // URL માંથી Terabox લિંક મેળવવી
         const urlParams = new URLSearchParams(window.location.search);
-        const teraboxUrl = urlParams.get('url');
+        const targetUrl = urlParams.get('url');
 
-        let timeLeft = 15;
-        const countdownEl = document.getElementById('countdown');
-        const finalBtn = document.getElementById('final-btn');
-        const instructionText = document.getElementById('instruction-text');
+        let countdown = 15;
+        const timerElement = document.getElementById('timer');
+        const actionBtn = document.getElementById('actionBtn');
 
-        // ૧૫ સેકન્ડનું ટાઈમર
-        const timer = setInterval(() => {
-            timeLeft--;
-            countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
+        const interval = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                timerElement.innerText = countdown;
+            } else {
+                clearInterval(interval);
+                timerElement.innerText = "Ready!";
+                actionBtn.innerText = "▶️ Continue to Video";
+                actionBtn.classList.remove('btn-disabled');
+                actionBtn.classList.add('btn-active');
 
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                countdownEl.style.display = 'none';
-
-                if (teraboxUrl) {
-                    finalBtn.style.display = 'block';
-                    instructionText.innerText = "તમારો વિડીયો તૈયાર છે! નીચે ક્લિક કરો.";
+                if (targetUrl) {
+                    const finalUrl = decodeURIComponent(targetUrl);
+                    actionBtn.href = finalUrl;
+                    // ટાઈમર પૂરું થતાં ઓટો-રીડાયરેક્ટ
+                    window.location.href = finalUrl;
                 } else {
-                    countdownEl.style.display = 'inline-block';
-                    countdownEl.innerText = "❌ માન્ય વિડીયો લિંક મળી નથી!";
+                    actionBtn.innerText = "લિંક ઉપલબ્ધ નથી";
                 }
             }
         }, 1000);
-
-        // બટન પર ક્લિક થાય ત્યારે Monetag ખુલશે અને પછી Terabox રીડાયરેક્ટ થશે
-        finalBtn.addEventListener('click', function() {
-            if (!teraboxUrl) return;
-
-            const targetLink = decodeURIComponent(teraboxUrl);
-
-            // ૧. Monetag નવી વિન્ડો/ટેબમાં ખુલશે
-            window.open("https://omg10.com/4/11785527", "_blank");
-
-            // ૨. યુઝર માટે લખાણ બદલાશે
-            instructionText.innerHTML = "⏳ <b>૫ સેકન્ડમાં વિડીયો ઓપન થઈ રહ્યો છે...</b>";
-            finalBtn.disabled = true;
-            finalBtn.style.opacity = "0.6";
-
-            // ૩. ૫ સેકન્ડ પછી આ જ પેજ આપોઆપ Terabox પર જશે
-            setTimeout(() => {
-                window.location.href = targetLink;
-            }, 5000);
-        });
     </script>
 </body>
 </html>
