@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Player</title>
 
-    <!-- Adsterra / Monetag Popunder Script અહીં મૂકવી -->
-    
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body {
@@ -32,23 +30,21 @@
         h2 { margin: 0 0 10px 0; color: #38bdf8; font-size: 20px; }
         p { color: #94a3b8; font-size: 14px; margin: 0 0 18px 0; line-height: 1.5; }
         
-        /* નાનું પ્રોફેશનલ ટાઈમર */
         .timer-badge {
             display: inline-block;
             font-size: 13px;
             color: #fca5a5;
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid #ef4444;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            margin-bottom: 15px;
+            margin: 15px 0;
         }
 
-        /* Smartlink / High Earning બટન */
         .smart-btn {
             display: block;
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 700;
             color: #ffffff;
@@ -58,7 +54,6 @@
             cursor: pointer;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
-            margin-bottom: 15px;
             animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
@@ -67,11 +62,10 @@
             100% { transform: scale(1); }
         }
 
-        /* આખરી Terabox બટન */
         .final-btn {
             display: none;
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 700;
             color: #ffffff;
@@ -100,30 +94,26 @@
 
     <div class="container">
         <h2>🎬 Play Video Stream</h2>
-        <p>વિડીયો અનલોક કરવા માટે નીચેના સ્ટેપ પૂરા કરો:</p>
+        <p id="instruction-text">વિડીયો અનલોક કરવા માટે નીચેના બટન પર ક્લિક કરો:</p>
 
-        <!-- જાહેરાત સ્પેસ ૧ -->
         <div class="ad-box">
-            <!-- અહીં Banner Ad 300x100 કે 320x50 કોડ પેસ્ટ કરો -->
             <small style="color: #64748b;">Advertisement</small>
         </div>
 
-        <!-- સ્માર્ટલિંક બટન: યુઝર ક્લિક કરશે એટલે એડ ખુલશે -->
-        <a id="smart-link-btn" href="તમારી_SMARTLINK_અહીં_નાખો" target="_blank" class="smart-btn">
+        <!-- સ્માર્ટલિંક બટન -->
+        <a id="smart-link-btn" href="https://www.profitableratecpmnetwork.com/gsvzik9m?key=2167f73f7001d541144988b0d01bc331" target="_blank" class="smart-btn">
             ⚡ Click Here to Fast Unlock
         </a>
 
-        <!-- નાનું ટાઈમર -->
-        <div id="countdown" class="timer-badge">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
+        <!-- નાનું ટાઈમર (શરૂઆતમાં છુપાયેલું રહેશે) -->
+        <div id="countdown" class="timer-badge" style="display: none;">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
 
-        <!-- Terabox બટન (ટાઈમર પૂરું થયા પછી દેખાશે) -->
+        <!-- આખરી Terabox બટન -->
         <a id="final-btn" href="#" class="final-btn">
             ▶️ Open Video in Terabox
         </a>
 
-        <!-- જાહેરાત સ્પેસ ૨ -->
         <div class="ad-box">
-            <!-- બીજી કોઈ જાહેરાત નો કોડ -->
             <small style="color: #64748b;">Advertisement</small>
         </div>
     </div>
@@ -133,35 +123,46 @@
         const teraboxUrl = urlParams.get('url');
 
         let timeLeft = 15;
+        let timerStarted = false;
         const countdownEl = document.getElementById('countdown');
         const finalBtn = document.getElementById('final-btn');
         const smartBtn = document.getElementById('smart-link-btn');
+        const instructionText = document.getElementById('instruction-text');
 
-        // ટાઈમર લૂપ
-        const timer = setInterval(() => {
-            timeLeft--;
-            countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
+        // યુઝર સ્માર્ટલિંક બટન પર ક્લિક કરે ત્યારે જ ટાઈમર શરૂ થશે
+        smartBtn.addEventListener('click', () => {
+            if (timerStarted) return;
+            timerStarted = true;
 
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                countdownEl.style.display = "none";
-                
-                if (teraboxUrl) {
-                    const targetLink = decodeURIComponent(teraboxUrl);
-                    finalBtn.href = targetLink;
-                    finalBtn.style.display = "block";
+            smartBtn.style.display = 'none'; // એડ પર ક્લિક કર્યા પછી સ્માર્ટ બટન ગાયબ થશે
+            countdownEl.style.display = 'inline-block';
+            instructionText.innerText = "વેરિફિકેશન ચાલુ છે, થોડી સેકન્ડ રાહ જુઓ...";
 
-                    // 5 સેકન્ડ પછી ઓટોમેટિક રીડાયરેક્ટ
-                    setTimeout(() => {
-                        window.location.href = targetLink;
-                    }, 5000);
-                } else {
-                    countdownEl.style.display = "block";
-                    countdownEl.innerText = "❌ માન્ય વિડીયો લિંક મળી નથી!";
-                    countdownEl.style.borderColor = "#f87171";
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdownEl.style.display = 'none';
+
+                    if (teraboxUrl) {
+                        const targetLink = decodeURIComponent(teraboxUrl);
+                        finalBtn.href = targetLink;
+                        finalBtn.style.display = 'block';
+                        instructionText.innerText = "તમારો વિડીયો તૈયાર છે! નીચે ક્લિક કરો અથવા ૫ સેકન્ડ રાહ જુઓ.";
+
+                        // 5 સેકન્ડ પછી આપોઆપ રીડાયરેક્ટ
+                        setTimeout(() => {
+                            window.location.href = targetLink;
+                        }, 5000);
+                    } else {
+                        countdownEl.style.display = 'inline-block';
+                        countdownEl.innerText = "❌ માન્ય વિડીયો લિંક મળી નથી!";
+                    }
                 }
-            }
-        }, 1000);
+            }, 1000);
+        });
     </script>
 </body>
 </html>
