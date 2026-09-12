@@ -112,7 +112,7 @@
             align-items: center;
             opacity: 0.7;
         }
-        .captcha-right img {
+        .captcha-right svg {
             width: 24px;
             height: 24px;
         }
@@ -190,7 +190,7 @@
                 <div class="captcha-text" id="captchaLabel">I'm not a robot (Verify)</div>
             </div>
             <div class="captcha-right">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#38bdf8">
+                <svg viewBox="0 0 24 24" fill="#38bdf8">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/>
                 </svg>
                 <span>Security</span>
@@ -205,7 +205,7 @@
 
         <!-- Play TeraBox Link Button (Ad 1 Link) -->
         <button id="actionBtn" class="play-btn" disabled onclick="handleFinalRedirect()">
-            ▶️ Play TeraBox Link (Wait 15s)
+            ▶️ Play TeraBox Link
         </button>
     </div>
 
@@ -213,7 +213,7 @@
         const AD_LINK_FINAL = "https://onepyrincehyarey.org?6CH0e=1720010"; // Play Button Link
         const AD_LINK_CAPTCHA = "https://onepyrincehyarey.org?8JjHw=1161684"; // Captcha Link
         
-        // URL Parameter થી Terabox Link ખેંચવી
+        // URL Parameter થી Terabox Link મેળવવી
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
         const rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
@@ -232,7 +232,7 @@
             }
         }
 
-        // ૨. ટાઈમર કાઉન્ટડાઉન (નાનું ડિસ્પ્લે)
+        // ૨. ટાઈમર કાઉન્ટડાઉન
         let countdown = 15;
         const timerElement = document.getElementById('timer');
         const actionBtn = document.getElementById('actionBtn');
@@ -241,7 +241,6 @@
             countdown--;
             if (countdown > 0) {
                 timerElement.innerText = `${countdown}s`;
-                actionBtn.innerText = `▶️ Play TeraBox Link (Wait ${countdown}s)`;
             } else {
                 clearInterval(interval);
                 timerElement.innerText = "Unlocked!";
