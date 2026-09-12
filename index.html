@@ -101,10 +101,21 @@
     <script>
         const SMARTLINK_URL = "https://onepyrincehyarey.org?6CH0e=1720010";
         
-        // URL માંથી Terabox લિંક ખેંચવી
+        // URL માંથી Terabox લિંક મેળવવી
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
-        const finalTeraboxUrl = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
+        let rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
+
+        // Deep Link / Intent URL તૈયાર કરવું જેથી સીધી TeraBox App ખુલે
+        function getAppIntentUrl(webUrl) {
+            try {
+                // દા.ત. https://teraboxapp.com/s/1xyz માંથી protocol હટાવીને intent બનાવવું
+                const cleanUrl = webUrl.replace(/^https?:\/\//, '');
+                return `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
+            } catch (e) {
+                return webUrl;
+            }
+        }
 
         let adTriggered = false;
         function triggerAdOnce() {
@@ -125,18 +136,28 @@
             } else {
                 clearInterval(interval);
                 timerElement.innerText = "Ready! 🎉";
-                actionBtn.innerText = "▶️ Get Video Link";
+                actionBtn.innerText = "▶️ Open in TeraBox App";
                 actionBtn.classList.remove('btn-disabled');
                 actionBtn.classList.add('btn-active');
+                
+                // ટાઈમર પૂરું થતાં ઓટો-રીડાયરેક્ટ
+                handleFinalRedirect();
             }
         }, 1000);
 
         function handleFinalRedirect() {
             if (countdown <= 0) {
-                // સ્માર્ટલિંક નવી ટેબમાં ઓપન થશે
+                // ૧. એડ નવી ટેબમાં ઓપન થશે
                 window.open(SMARTLINK_URL, '_blank');
-                // અને મેઈન પેજ સીધું ટેરાબોક્સ પર જશે
-                window.location.href = finalTeraboxUrl;
+
+                // ૨. ફોનમાં સીધી TeraBox એપ ખોલવાનો પ્રયાસ કરશે
+                const appUrl = getAppIntentUrl(rawTerabox);
+                window.location.href = appUrl;
+
+                // ૩. જો એપ ન હોય તો ૧.૫ સેકન્ડમાં બ્રાઉઝર લિંક પર જશે
+                setTimeout(() => {
+                    window.location.href = rawTerabox;
+                }, 1500);
             }
         }
     </script>
