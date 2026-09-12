@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Monetag Verification Tag -->
+    <meta name="monetag" content="9bf63e4c266e934de0c3aa79c55b8be9">
+    
     <title>Stream Player</title>
 
     <style>
@@ -108,10 +111,10 @@
             🤖 I Am Not a Robot - Verify Please
         </a>
 
-        <!-- નાનું ટાઈમર (પેજ લોડ થતાં જ ચાલુ રહેશે) -->
+        <!-- નાનું ટાઈમર -->
         <div id="countdown" class="timer-badge">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
 
-        <!-- Terabox બટન (૧૫ સેકન્ડ પછી ઓપન થશે) -->
+        <!-- Terabox બટન -->
         <a id="final-btn" href="#" class="final-btn">
             ▶️ Open Video in Terabox
         </a>
@@ -130,7 +133,6 @@
         const finalBtn = document.getElementById('final-btn');
         const instructionText = document.getElementById('instruction-text');
 
-        // પેજ ખુલતાની સાથે જ ટાઈમર રન થશે
         const timer = setInterval(() => {
             timeLeft--;
             countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
@@ -145,7 +147,6 @@
                     finalBtn.style.display = 'block';
                     instructionText.innerText = "તમારો વિડીયો તૈયાર છે! ૫ સેકન્ડમાં Terabox ખુલશે.";
 
-                    // ૫ સેકન્ડ પછી ઓટો-રીડાયરેક્ટ
                     setTimeout(() => {
                         window.location.href = targetLink;
                     }, 5000);
