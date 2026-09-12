@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Play Video - Fast Streaming</title>
 
-    <!-- Ad-Maven verification meta tag -->
-    <meta name="admaven-site-verification" content="admaven">
-
-    <!-- Ad-Maven Popunder / Auto-Redirect Script (જો હોય તો અહીં પેસ્ટ કરવો) -->
-
     <style>
         * {
             box-sizing: border-box;
@@ -18,7 +13,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         body {
-            background-color: #0f172a;
+            background-color: #0b1120;
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -34,7 +29,7 @@
             padding: 28px;
             max-width: 440px;
             width: 100%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid #334155;
         }
         h2 {
@@ -45,78 +40,79 @@
         p {
             font-size: 15px;
             color: #94a3b8;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             line-height: 1.5;
         }
         .timer-box {
-            font-size: 42px;
-            font-weight: 700;
+            font-size: 48px;
+            font-weight: 800;
             color: #f59e0b;
-            margin-bottom: 20px;
+            margin: 15px 0 25px;
         }
         .btn {
             display: inline-block;
             width: 100%;
-            padding: 14px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.2s ease;
             border: none;
         }
         .btn-disabled {
-            background-color: #475569;
-            color: #94a3b8;
+            background-color: #334155;
+            color: #64748b;
             pointer-events: none;
         }
         .btn-active {
             background-color: #22c55e;
             color: #ffffff;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
         }
-        .ad-slot {
-            margin: 18px 0;
-            padding: 12px;
-            background-color: #0f172a;
-            border: 1px dashed #475569;
-            border-radius: 8px;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-size: 13px;
+        .btn-active:active {
+            transform: scale(0.98);
+        }
+        .badge {
+            display: inline-block;
+            background: #0f172a;
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
-<body>
+<body onclick="triggerAdOnce()">
 
     <div class="card">
-        <h2>🎬 Video Link Ready</h2>
-        <p>તમારો વિડીયો લોડ થઈ રહ્યો છે. કૃપા કરીને થોડી સેકન્ડ રાહ જુઓ...</p>
-
-        <!-- Banner Ad Slot 1 -->
-        <div class="ad-slot">
-            <!-- Ad-Maven Banner Script 1 અહીં પેસ્ટ કરવો -->
-            <span>Advertisement</span>
-        </div>
+        <span class="badge">Terabox Fast Streamer</span>
+        <h2>🎬 Your Video is Processing</h2>
+        <p>કૃપા કરીને ટાઈમર પૂરું થાય ત્યાં સુધી રાહ જુઓ. ડાઉનલોડ લિંક નીચે દેખાશે.</p>
 
         <div class="timer-box" id="timer">15</div>
 
-        <!-- Banner Ad Slot 2 -->
-        <div class="ad-slot">
-            <!-- Ad-Maven Banner Script 2 અહીં પેસ્ટ કરવો -->
-            <span>Advertisement</span>
-        </div>
-
-        <a id="actionBtn" class="btn btn-disabled" href="#">કૃપા કરીને રાહ જુઓ...</a>
+        <button id="actionBtn" class="btn btn-disabled" onclick="handleFinalRedirect()">કૃપા કરીને રાહ જુઓ...</button>
     </div>
 
     <script>
-        // URL માંથી Terabox લિંક મેળવવી
+        const SMARTLINK_URL = "https://onepyrincehyarey.org?6CH0e=1720010";
+        
+        // URL માંથી Terabox લિંક ખેંચવી
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
+        const finalTeraboxUrl = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
+
+        let adTriggered = false;
+        function triggerAdOnce() {
+            if (!adTriggered) {
+                adTriggered = true;
+                window.open(SMARTLINK_URL, '_blank');
+            }
+        }
 
         let countdown = 15;
         const timerElement = document.getElementById('timer');
@@ -128,21 +124,21 @@
                 timerElement.innerText = countdown;
             } else {
                 clearInterval(interval);
-                timerElement.innerText = "Ready!";
-                actionBtn.innerText = "▶️ Continue to Video";
+                timerElement.innerText = "Ready! 🎉";
+                actionBtn.innerText = "▶️ Get Video Link";
                 actionBtn.classList.remove('btn-disabled');
                 actionBtn.classList.add('btn-active');
-
-                if (targetUrl) {
-                    const finalUrl = decodeURIComponent(targetUrl);
-                    actionBtn.href = finalUrl;
-                    // ટાઈમર પૂરું થતાં ઓટો-રીડાયરેક્ટ
-                    window.location.href = finalUrl;
-                } else {
-                    actionBtn.innerText = "લિંક ઉપલબ્ધ નથી";
-                }
             }
         }, 1000);
+
+        function handleFinalRedirect() {
+            if (countdown <= 0) {
+                // સ્માર્ટલિંક નવી ટેબમાં ઓપન થશે
+                window.open(SMARTLINK_URL, '_blank');
+                // અને મેઈન પેજ સીધું ટેરાબોક્સ પર જશે
+                window.location.href = finalTeraboxUrl;
+            }
+        }
     </script>
 </body>
 </html>
