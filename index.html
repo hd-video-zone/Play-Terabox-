@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Video</title>
+    <title>Play Video - Fast Streaming</title>
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
         body {
             background-color: #0b1120;
             color: #ffffff;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -19,58 +26,126 @@
         .card {
             background-color: #1e293b;
             border-radius: 16px;
-            padding: 28px;
+            padding: 26px 22px;
             max-width: 420px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid #334155;
         }
-        h2 { font-size: 20px; margin-bottom: 12px; color: #38bdf8; }
-        p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
-        .timer-box { font-size: 46px; font-weight: bold; color: #f59e0b; margin: 15px 0; }
-        .btn {
+        h2 {
+            font-size: 21px;
+            margin-bottom: 8px;
+            color: #38bdf8;
+        }
+        p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+        .badge {
+            display: inline-block;
+            background: #0f172a;
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+        .verify-btn {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: 2px dashed #f59e0b;
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            transition: all 0.3s ease;
+            margin-bottom: 18px;
+        }
+        .verify-btn:active {
+            transform: scale(0.98);
+        }
+        .verify-btn.verified {
+            background-color: #065f46;
+            border: 2px solid #10b981;
+            color: #34d399;
+            cursor: default;
+        }
+        .timer-box {
+            font-size: 46px;
+            font-weight: 800;
+            color: #f59e0b;
+            margin: 10px 0 20px;
+        }
+        .action-btn {
             display: block;
             width: 100%;
             padding: 14px;
             border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             text-decoration: none;
             cursor: pointer;
+            transition: all 0.2s ease;
             border: none;
             background-color: #334155;
             color: #64748b;
         }
-        .btn.active {
+        .action-btn.active {
             background-color: #22c55e;
             color: #ffffff;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+        }
+        .action-btn.active:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
-    <div class="card" id="mainCard">
-        <h2>🎬 Video Stream Ready</h2>
-        <p>કૃપા કરીને ટાઈમર પૂર્ણ થવાની રાહ જુઓ...</p>
+    <div class="card">
+        <span class="badge">Terabox Fast Streamer</span>
+        <h2>🎬 Your Video is Processing</h2>
+        <p>કૃપા કરીને નીચેનું વેરિફિકેશન પૂર્ણ કરો અને ટાઈમર પૂરું થવા દો.</p>
+
+        <!-- 1. નવું વેરીફિકેશન બટન (નવી લિંક સાથે) -->
+        <button id="verifyBtn" class="verify-btn" onclick="handleVerifyClick()">
+            🛡️ Step 1: Verify You Are Human
+        </button>
+
         <div class="timer-box" id="timer">15</div>
-        <button id="actionBtn" class="btn" disabled>રાહ જુઓ (15s)...</button>
+
+        <!-- 2. મેઈન ટેરાબોક્સ બટન (જૂની લિંક સાથે) -->
+        <button id="actionBtn" class="action-btn" disabled onclick="handleFinalRedirect()">
+            કૃપા કરીને રાહ જુઓ...
+        </button>
     </div>
 
     <script>
-        const SMARTLINK_URL = "https://onepyrincehyarey.org?6CH0e=1720010";
+        // બંને Ad-Maven Links
+        const AD_LINK_1 = "https://onepyrincehyarey.org?6CH0e=1720010"; // Final Button Link
+        const AD_LINK_2 = "https://onepyrincehyarey.org?8JjHw=1161684"; // Verification Button Link
+        
+        // URL માંથી Terabox લિંક મેળવવી
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
         const rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
 
-        // પેજ પર પહેલી ક્લિકે એડ ખૂલશે (બ્રાઉઝર ફ્રીઝ થયા વગર)
-        let adClicked = false;
-        document.body.addEventListener('click', function() {
-            if (!adClicked) {
-                adClicked = true;
-                window.open(SMARTLINK_URL, '_blank');
-            }
-        });
+        // ૧. વેરીફિકેશન બટન પર ક્લિક થતાં
+        function handleVerifyClick() {
+            const verifyBtn = document.getElementById('verifyBtn');
+            window.open(AD_LINK_2, '_blank');
+            verifyBtn.innerHTML = "✅ Verified Successfully";
+            verifyBtn.classList.add('verified');
+        }
 
+        // ૨. ૧૫ સેકન્ડનો કાઉન્ટડાઉન ટાઈમર
         let countdown = 15;
         const timerElement = document.getElementById('timer');
         const actionBtn = document.getElementById('actionBtn');
@@ -79,31 +154,38 @@
             countdown--;
             if (countdown > 0) {
                 timerElement.innerText = countdown;
-                actionBtn.innerText = `રાહ જુઓ (${countdown}s)...`;
             } else {
                 clearInterval(interval);
                 timerElement.innerText = "Ready! 🎉";
-                actionBtn.innerText = "▶️ Open Video in TeraBox";
+                actionBtn.innerText = "▶️ Step 2: Open Video in TeraBox";
                 actionBtn.disabled = false;
                 actionBtn.classList.add('active');
             }
         }, 1000);
 
-        actionBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
+        // ૩. ફાઈનલ ટેરાબોક્સ બટન પર ક્લિક થતાં
+        function handleFinalRedirect() {
             if (countdown <= 0) {
-                // બેકગ્રાઉન્ડ એડ
-                window.open(SMARTLINK_URL, '_blank');
+                // બેકગ્રાઉન્ડમાં Ad-Link 1 ખૂલશે
+                window.open(AD_LINK_1, '_blank');
 
-                // સીધી એપ્લિકેશન પર રીડાયરેક્ટ
+                // સીધી Terabox એપ ખૂલશે
                 const cleanUrl = rawTerabox.replace(/^https?:\/\//, '');
-                window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
 
+                // Method 1: App Scheme
+                window.location.href = `terabox://${cleanUrl}`;
+
+                // Method 2: Android Intent (Fallback સાથે)
+                setTimeout(() => {
+                    window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
+                }, 400);
+
+                // Method 3: Browser Fallback
                 setTimeout(() => {
                     window.location.href = rawTerabox;
-                }, 1000);
+                }, 1200);
             }
-        });
+        }
     </script>
 </body>
 </html>
