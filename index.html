@@ -3,67 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Video Online</title>
+    <title>Stream Player</title>
 
-    <!-- અહીં તમારી Adsterra / Monetag ની Popunder અથવા Header સ્ક્રિપ્ટ મુકો -->
-    <!-- EXAMPLE: <script type='text/javascript' src='//your-ad-script.js'></script> -->
-
+    <!-- Adsterra / Monetag Popunder Script અહીં મૂકવી -->
+    
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body {
-            background-color: #0f172a;
+            background-color: #0b0f19;
             color: #ffffff;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
-            text-align: center;
+            padding: 15px;
         }
         .container {
-            background: #1e293b;
-            padding: 30px 20px;
+            background: #151f32;
+            padding: 24px 20px;
             border-radius: 16px;
-            max-width: 450px;
+            max-width: 420px;
             width: 100%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border: 1px solid #233554;
         }
-        h2 { margin-top: 0; color: #38bdf8; font-size: 22px; }
-        p { color: #94a3b8; font-size: 15px; margin-bottom: 25px; }
-        .timer-box {
-            font-size: 40px;
-            font-weight: bold;
-            color: #f43f5e;
-            margin-bottom: 20px;
-            border: 2px dashed #f43f5e;
+        h2 { margin: 0 0 10px 0; color: #38bdf8; font-size: 20px; }
+        p { color: #94a3b8; font-size: 14px; margin: 0 0 18px 0; line-height: 1.5; }
+        
+        /* નાનું પ્રોફેશનલ ટાઈમર */
+        .timer-badge {
             display: inline-block;
-            padding: 10px 25px;
-            border-radius: 12px;
-            background: rgba(244, 63, 94, 0.1);
+            font-size: 13px;
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
         }
-        .btn {
-            display: none;
+
+        /* Smartlink / High Earning બટન */
+        .smart-btn {
+            display: block;
             width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 13px;
+            font-size: 16px;
+            font-weight: 700;
             color: #ffffff;
-            background: #22c55e;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             text-decoration: none;
-            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
         }
-        .btn:hover { background: #16a34a; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* આખરી Terabox બટન */
+        .final-btn {
+            display: none;
+            width: 100%;
+            padding: 13px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            background: #10b981;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        }
+
         .ad-box {
-            margin: 20px 0;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
             border-radius: 8px;
-            border: 1px dashed #475569;
+            border: 1px dashed #334155;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -71,56 +100,65 @@
 
     <div class="container">
         <h2>🎬 Play Video Stream</h2>
-        <p>કૃપા કરીને વિડીયો લિંક લોડ થાય ત્યાં સુધી થોડી સેકન્ડ રાહ જુઓ...</p>
+        <p>વિડીયો અનલોક કરવા માટે નીચેના સ્ટેપ પૂરા કરો:</p>
 
-        <!-- જાહેરાત માટેનું બેનર ૧ -->
+        <!-- જાહેરાત સ્પેસ ૧ -->
         <div class="ad-box">
-            <!-- અહીં તમારી Banner Ad નો કોડ મુકવો -->
+            <!-- અહીં Banner Ad 300x100 કે 320x50 કોડ પેસ્ટ કરો -->
             <small style="color: #64748b;">Advertisement</small>
         </div>
 
-        <div id="countdown" class="timer-box">15s</div>
-        <div id="status-text" style="color: #cbd5e1; margin-bottom: 15px;">તમારો વિડીયો તૈયાર થઈ રહ્યો છે...</div>
+        <!-- સ્માર્ટલિંક બટન: યુઝર ક્લિક કરશે એટલે એડ ખુલશે -->
+        <a id="smart-link-btn" href="તમારી_SMARTLINK_અહીં_નાખો" target="_blank" class="smart-btn">
+            ⚡ Click Here to Fast Unlock
+        </a>
 
-        <a id="action-btn" href="#" class="btn">▶️ Go to Video</a>
+        <!-- નાનું ટાઈમર -->
+        <div id="countdown" class="timer-badge">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
 
-        <!-- જાહેરાત માટેનું બેનર ૨ -->
+        <!-- Terabox બટન (ટાઈમર પૂરું થયા પછી દેખાશે) -->
+        <a id="final-btn" href="#" class="final-btn">
+            ▶️ Open Video in Terabox
+        </a>
+
+        <!-- જાહેરાત સ્પેસ ૨ -->
         <div class="ad-box">
-            <!-- અહીં તમારી Smartlink અથવા બીજી Ad નો કોડ મુકવો -->
+            <!-- બીજી કોઈ જાહેરાત નો કોડ -->
             <small style="color: #64748b;">Advertisement</small>
         </div>
     </div>
 
     <script>
-        // URL માંથી લિંક મેળવવા માટે
         const urlParams = new URLSearchParams(window.location.search);
         const teraboxUrl = urlParams.get('url');
 
         let timeLeft = 15;
         const countdownEl = document.getElementById('countdown');
-        const actionBtn = document.getElementById('action-btn');
-        const statusText = document.getElementById('status-text');
+        const finalBtn = document.getElementById('final-btn');
+        const smartBtn = document.getElementById('smart-link-btn');
 
+        // ટાઈમર લૂપ
         const timer = setInterval(() => {
             timeLeft--;
-            countdownEl.innerText = timeLeft + "s";
+            countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
 
             if (timeLeft <= 0) {
                 clearInterval(timer);
                 countdownEl.style.display = "none";
                 
                 if (teraboxUrl) {
-                    const finalTarget = decodeURIComponent(teraboxUrl);
-                    actionBtn.href = finalTarget;
-                    actionBtn.style.display = "block";
-                    statusText.innerHTML = "વિડીયો તૈયાર છે! <b>૫ સેકન્ડમાં ઓટો-ઓપન થશે...</b>";
+                    const targetLink = decodeURIComponent(teraboxUrl);
+                    finalBtn.href = targetLink;
+                    finalBtn.style.display = "block";
 
                     // 5 સેકન્ડ પછી ઓટોમેટિક રીડાયરેક્ટ
                     setTimeout(() => {
-                        window.location.href = finalTarget;
+                        window.location.href = targetLink;
                     }, 5000);
                 } else {
-                    statusText.innerText = "❌ કોઈ માન્ય વિડીયો લિંક મળી નથી!";
+                    countdownEl.style.display = "block";
+                    countdownEl.innerText = "❌ માન્ય વિડીયો લિંક મળી નથી!";
+                    countdownEl.style.borderColor = "#f87171";
                 }
             }
         }, 1000);
