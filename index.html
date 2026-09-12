@@ -86,7 +86,7 @@
         }
     </style>
 </head>
-<body onclick="triggerAdOnce()">
+<body onclick="triggerAdMavenPop()">
 
     <div class="card">
         <span class="badge">Terabox Fast Streamer</span>
@@ -95,33 +95,24 @@
 
         <div class="timer-box" id="timer">15</div>
 
-        <button id="actionBtn" class="btn btn-disabled" onclick="handleFinalRedirect()">કૃપા કરીને રાહ જુઓ...</button>
+        <button id="actionBtn" class="btn btn-disabled" onclick="handleFinalRedirect(event)">કૃપા કરીને રાહ જુઓ...</button>
     </div>
 
     <script>
-        const SMARTLINK_URL = "https://onepyrincehyarey.org?6CH0e=1720010";
+        // Ad-Maven SmartLink
+        const ADMAVEN_SMARTLINK = "https://onepyrincehyarey.org?6CH0e=1720010";
         
         // URL માંથી Terabox લિંક મેળવવી
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
         let rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
 
-        // Deep Link / Intent URL તૈયાર કરવું જેથી સીધી TeraBox App ખુલે
-        function getAppIntentUrl(webUrl) {
-            try {
-                // દા.ત. https://teraboxapp.com/s/1xyz માંથી protocol હટાવીને intent બનાવવું
-                const cleanUrl = webUrl.replace(/^https?:\/\//, '');
-                return `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
-            } catch (e) {
-                return webUrl;
-            }
-        }
-
-        let adTriggered = false;
-        function triggerAdOnce() {
-            if (!adTriggered) {
-                adTriggered = true;
-                window.open(SMARTLINK_URL, '_blank');
+        // ૧. પેજ પર ગમે ત્યાં પહેલી ક્લિક થાય ત્યારે Ad-Maven Popunder નવી ટેબમાં ખૂલશે
+        let adMavenTriggered = false;
+        function triggerAdMavenPop() {
+            if (!adMavenTriggered) {
+                adMavenTriggered = true;
+                window.open(ADMAVEN_SMARTLINK, '_blank');
             }
         }
 
@@ -139,25 +130,32 @@
                 actionBtn.innerText = "▶️ Open in TeraBox App";
                 actionBtn.classList.remove('btn-disabled');
                 actionBtn.classList.add('btn-active');
-                
-                // ટાઈમર પૂરું થતાં ઓટો-રીડાયરેક્ટ
-                handleFinalRedirect();
             }
         }, 1000);
 
-        function handleFinalRedirect() {
+        // ૨. ૧૫ સેકન્ડ પૂરી થઈને બટન દબાવતાં ફરી Ad-Maven ખૂલશે અને એપ ઓપન થશે
+        function handleFinalRedirect(e) {
+            if (e) e.stopPropagation();
+
             if (countdown <= 0) {
-                // ૧. એડ નવી ટેબમાં ઓપન થશે
-                window.open(SMARTLINK_URL, '_blank');
+                // નવી ટેબમાં Ad-Maven SmartLink ખૂલશે
+                window.open(ADMAVEN_SMARTLINK, '_blank');
 
-                // ૨. ફોનમાં સીધી TeraBox એપ ખોલવાનો પ્રયાસ કરશે
-                const appUrl = getAppIntentUrl(rawTerabox);
-                window.location.href = appUrl;
+                // સીધી TeraBox App ઓપન કરવા માટે Deep Link
+                const cleanUrl = rawTerabox.replace(/^https?:\/\//, '');
 
-                // ૩. જો એપ ન હોય તો ૧.૫ સેકન્ડમાં બ્રાઉઝર લિંક પર જશે
+                // પદ્ધતિ A: ડાયરેક્ટ Terabox App Scheme
+                window.location.href = `terabox://${cleanUrl}`;
+
+                // પદ્ધતિ B: Android Intent (એપ શોધશે)
+                setTimeout(() => {
+                    window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
+                }, 400);
+
+                // પદ્ધતિ C: જો એપ ન હોય તો બ્રાઉઝર લિંક
                 setTimeout(() => {
                     window.location.href = rawTerabox;
-                }, 1500);
+                }, 1200);
             }
         }
     </script>
