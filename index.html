@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Monetag Verification Tag -->
-    <meta name="monetag" content="9bf63e4c266e934de0c3aa79c55b8be9">
-    
     <title>Stream Player</title>
 
     <style>
@@ -33,7 +30,6 @@
         h2 { margin: 0 0 10px 0; color: #38bdf8; font-size: 20px; }
         p { color: #94a3b8; font-size: 14px; margin: 0 0 18px 0; line-height: 1.5; }
         
-        /* નાનું પ્રોફેશનલ ટાઈમર બેજ */
         .timer-badge {
             display: inline-block;
             font-size: 13px;
@@ -45,7 +41,6 @@
             margin: 15px 0;
         }
 
-        /* સ્માર્ટલિંક / વેરીફાઈ બટન */
         .smart-btn {
             display: block;
             width: 100%;
@@ -67,7 +62,6 @@
             100% { transform: scale(1); }
         }
 
-        /* આખરી Terabox બટન */
         .final-btn {
             display: none;
             width: 100%;
@@ -106,18 +100,18 @@
             <small style="color: #64748b;">Advertisement</small>
         </div>
 
-        <!-- સ્માર્ટલિંક Robot Verification બટન -->
+        <!-- Adsterra Smartlink Button -->
         <a id="smart-link-btn" href="https://www.profitableratecpmnetwork.com/gsvzik9m?key=2167f73f7001d541144988b0d01bc331" target="_blank" class="smart-btn">
             🤖 I Am Not a Robot - Verify Please
         </a>
 
-        <!-- નાનું ટાઈમર -->
+        <!-- 15s Timer -->
         <div id="countdown" class="timer-badge">⏳ વિડીયો તૈયાર થઈ રહ્યો છે: 15s</div>
 
-        <!-- Terabox બટન -->
-        <a id="final-btn" href="#" class="final-btn">
+        <!-- Terabox Button: ક્લિક કરવાથી Monetag ખુલશે અને પાછળ Terabox સેટ થશે -->
+        <button id="final-btn" class="final-btn">
             ▶️ Open Video in Terabox
-        </a>
+        </button>
 
         <div class="ad-box">
             <small style="color: #64748b;">Advertisement</small>
@@ -133,6 +127,7 @@
         const finalBtn = document.getElementById('final-btn');
         const instructionText = document.getElementById('instruction-text');
 
+        // ૧૫ સેકન્ડનું ટાઈમર
         const timer = setInterval(() => {
             timeLeft--;
             countdownEl.innerText = `⏳ વિડીયો તૈયાર થઈ રહ્યો છે: ${timeLeft}s`;
@@ -142,20 +137,34 @@
                 countdownEl.style.display = 'none';
 
                 if (teraboxUrl) {
-                    const targetLink = decodeURIComponent(teraboxUrl);
-                    finalBtn.href = targetLink;
                     finalBtn.style.display = 'block';
-                    instructionText.innerText = "તમારો વિડીયો તૈયાર છે! ૫ સેકન્ડમાં Terabox ખુલશે.";
-
-                    setTimeout(() => {
-                        window.location.href = targetLink;
-                    }, 5000);
+                    instructionText.innerText = "તમારો વિડીયો તૈયાર છે! નીચે ક્લિક કરો.";
                 } else {
                     countdownEl.style.display = 'inline-block';
                     countdownEl.innerText = "❌ માન્ય વિડીયો લિંક મળી નથી!";
                 }
             }
         }, 1000);
+
+        // બટન પર ક્લિક થાય ત્યારે Monetag ખુલશે અને પછી Terabox રીડાયરેક્ટ થશે
+        finalBtn.addEventListener('click', function() {
+            if (!teraboxUrl) return;
+
+            const targetLink = decodeURIComponent(teraboxUrl);
+
+            // ૧. Monetag નવી વિન્ડો/ટેબમાં ખુલશે
+            window.open("https://omg10.com/4/11785527", "_blank");
+
+            // ૨. યુઝર માટે લખાણ બદલાશે
+            instructionText.innerHTML = "⏳ <b>૫ સેકન્ડમાં વિડીયો ઓપન થઈ રહ્યો છે...</b>";
+            finalBtn.disabled = true;
+            finalBtn.style.opacity = "0.6";
+
+            // ૩. ૫ સેકન્ડ પછી આ જ પેજ આપોઆપ Terabox પર જશે
+            setTimeout(() => {
+                window.location.href = targetLink;
+            }, 5000);
+        });
     </script>
 </body>
 </html>
