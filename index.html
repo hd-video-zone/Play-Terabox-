@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Video - Fast Streaming</title>
-
+    <title>Play Video</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body {
             background-color: #0b1120;
             color: #ffffff;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -27,94 +20,56 @@
             background-color: #1e293b;
             border-radius: 16px;
             padding: 28px;
-            max-width: 440px;
+            max-width: 420px;
             width: 100%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border: 1px solid #334155;
         }
-        h2 {
-            font-size: 22px;
-            margin-bottom: 12px;
-            color: #38bdf8;
-        }
-        p {
-            font-size: 15px;
-            color: #94a3b8;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-        .timer-box {
-            font-size: 48px;
-            font-weight: 800;
-            color: #f59e0b;
-            margin: 15px 0 25px;
-        }
+        h2 { font-size: 20px; margin-bottom: 12px; color: #38bdf8; }
+        p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+        .timer-box { font-size: 46px; font-weight: bold; color: #f59e0b; margin: 15px 0; }
         .btn {
-            display: inline-block;
+            display: block;
             width: 100%;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: bold;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.2s ease;
             border: none;
-        }
-        .btn-disabled {
             background-color: #334155;
             color: #64748b;
-            pointer-events: none;
         }
-        .btn-active {
+        .btn.active {
             background-color: #22c55e;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
-        }
-        .btn-active:active {
-            transform: scale(0.98);
-        }
-        .badge {
-            display: inline-block;
-            background: #0f172a;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 15px;
         }
     </style>
 </head>
-<body onclick="triggerAdMavenPop()">
+<body>
 
-    <div class="card">
-        <span class="badge">Terabox Fast Streamer</span>
-        <h2>🎬 Your Video is Processing</h2>
-        <p>કૃપા કરીને ટાઈમર પૂરું થાય ત્યાં સુધી રાહ જુઓ. ડાઉનલોડ લિંક નીચે દેખાશે.</p>
-
+    <div class="card" id="mainCard">
+        <h2>🎬 Video Stream Ready</h2>
+        <p>કૃપા કરીને ટાઈમર પૂર્ણ થવાની રાહ જુઓ...</p>
         <div class="timer-box" id="timer">15</div>
-
-        <button id="actionBtn" class="btn btn-disabled" onclick="handleFinalRedirect(event)">કૃપા કરીને રાહ જુઓ...</button>
+        <button id="actionBtn" class="btn" disabled>રાહ જુઓ (15s)...</button>
     </div>
 
     <script>
-        // Ad-Maven SmartLink
-        const ADMAVEN_SMARTLINK = "https://onepyrincehyarey.org?6CH0e=1720010";
-        
-        // URL માંથી Terabox લિંક મેળવવી
+        const SMARTLINK_URL = "https://onepyrincehyarey.org?6CH0e=1720010";
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
-        let rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
+        const rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
 
-        // ૧. પેજ પર ગમે ત્યાં પહેલી ક્લિક થાય ત્યારે Ad-Maven Popunder નવી ટેબમાં ખૂલશે
-        let adMavenTriggered = false;
-        function triggerAdMavenPop() {
-            if (!adMavenTriggered) {
-                adMavenTriggered = true;
-                window.open(ADMAVEN_SMARTLINK, '_blank');
+        // પેજ પર પહેલી ક્લિકે એડ ખૂલશે (બ્રાઉઝર ફ્રીઝ થયા વગર)
+        let adClicked = false;
+        document.body.addEventListener('click', function() {
+            if (!adClicked) {
+                adClicked = true;
+                window.open(SMARTLINK_URL, '_blank');
             }
-        }
+        });
 
         let countdown = 15;
         const timerElement = document.getElementById('timer');
@@ -124,40 +79,31 @@
             countdown--;
             if (countdown > 0) {
                 timerElement.innerText = countdown;
+                actionBtn.innerText = `રાહ જુઓ (${countdown}s)...`;
             } else {
                 clearInterval(interval);
                 timerElement.innerText = "Ready! 🎉";
-                actionBtn.innerText = "▶️ Open in TeraBox App";
-                actionBtn.classList.remove('btn-disabled');
-                actionBtn.classList.add('btn-active');
+                actionBtn.innerText = "▶️ Open Video in TeraBox";
+                actionBtn.disabled = false;
+                actionBtn.classList.add('active');
             }
         }, 1000);
 
-        // ૨. ૧૫ સેકન્ડ પૂરી થઈને બટન દબાવતાં ફરી Ad-Maven ખૂલશે અને એપ ઓપન થશે
-        function handleFinalRedirect(e) {
-            if (e) e.stopPropagation();
-
+        actionBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
             if (countdown <= 0) {
-                // નવી ટેબમાં Ad-Maven SmartLink ખૂલશે
-                window.open(ADMAVEN_SMARTLINK, '_blank');
+                // બેકગ્રાઉન્ડ એડ
+                window.open(SMARTLINK_URL, '_blank');
 
-                // સીધી TeraBox App ઓપન કરવા માટે Deep Link
+                // સીધી એપ્લિકેશન પર રીડાયરેક્ટ
                 const cleanUrl = rawTerabox.replace(/^https?:\/\//, '');
+                window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
 
-                // પદ્ધતિ A: ડાયરેક્ટ Terabox App Scheme
-                window.location.href = `terabox://${cleanUrl}`;
-
-                // પદ્ધતિ B: Android Intent (એપ શોધશે)
-                setTimeout(() => {
-                    window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
-                }, 400);
-
-                // પદ્ધતિ C: જો એપ ન હોય તો બ્રાઉઝર લિંક
                 setTimeout(() => {
                     window.location.href = rawTerabox;
-                }, 1200);
+                }, 1000);
             }
-        }
+        });
     </script>
 </body>
 </html>
