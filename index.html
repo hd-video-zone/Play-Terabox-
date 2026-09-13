@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeraBox Player - High Speed Stream</title>
+    <title>Fast Video Streamer</title>
 
     <style>
         * {
@@ -161,7 +161,7 @@
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff;
             box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45);
-            animation: pulse 1.8s infinite;
+            animation: pulse 1.5s infinite;
         }
         .play-btn.active:active {
             transform: scale(0.98);
@@ -197,33 +197,33 @@
             </div>
         </div>
 
-        <!-- Small Minimalist Timer -->
+        <!-- Small Minimalist Timer (10s) -->
         <div class="timer-wrapper">
             <span>Video Link unlocks in:</span>
-            <span class="timer-tag" id="timer">15s</span>
+            <span class="timer-tag" id="timer">10s</span>
         </div>
 
-        <!-- Play TeraBox Link Button (Ad 1 Link) -->
-        <button id="actionBtn" class="play-btn" disabled onclick="handleFinalRedirect()">
+        <!-- Play TeraBox Link Button (Ad 1 Link / Target) -->
+        <button id="actionBtn" class="play-btn" onclick="handleButtonClick()">
             ▶️ Play TeraBox Link
         </button>
     </div>
 
     <script>
-        const AD_LINK_FINAL = "https://onepyrincehyarey.org?6CH0e=1720010"; // Play Button Link
-        const AD_LINK_CAPTCHA = "https://onepyrincehyarey.org?8JjHw=1161684"; // Captcha Link
+        const AD_LINK_1 = "https://onepyrincehyarey.org?6CH0e=1720010"; // Play Button / Backup Ad
+        const AD_LINK_2 = "https://onepyrincehyarey.org?8JjHw=1161684"; // Captcha Ad
         
-        // URL Parameter થી Terabox Link મેળવવી
+        // URL માંથી Target Link ખેંચવી (TeraBox, Diskwala વગેરે)
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
-        const rawTerabox = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
+        const rawTarget = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
 
-        // ૧. કેપ્ચા પર ક્લિક થતાં
+        // ૧. કેપ્ચા પર ક્લિક થતાં Ad 2 ખૂલશે
         let isVerified = false;
         function handleCaptchaClick() {
             if (!isVerified) {
                 isVerified = true;
-                window.open(AD_LINK_CAPTCHA, '_blank');
+                window.open(AD_LINK_2, '_blank');
                 
                 document.getElementById('captchaCheck').classList.add('checkbox-checked');
                 document.getElementById('checkIcon').style.display = 'block';
@@ -232,8 +232,9 @@
             }
         }
 
-        // ૨. ટાઈમર કાઉન્ટડાઉન
-        let countdown = 15;
+        // ૨. ૧૦ સેકન્ડ ટાઈમર કાઉન્ટડાઉન
+        let countdown = 10;
+        let redirected = false;
         const timerElement = document.getElementById('timer');
         const actionBtn = document.getElementById('actionBtn');
 
@@ -243,35 +244,49 @@
                 timerElement.innerText = `${countdown}s`;
             } else {
                 clearInterval(interval);
-                timerElement.innerText = "Unlocked!";
+                timerElement.innerText = "Redirecting...";
                 timerElement.style.color = "#10b981";
-                actionBtn.innerText = "▶️ Play TeraBox Link (Click Here)";
-                actionBtn.disabled = false;
                 actionBtn.classList.add('active');
+                actionBtn.innerText = "▶️ Opening Video...";
+
+                // ૧૦ સેકન્ડ પૂરી થતાં જ ૨ સેકન્ડમાં ઓટો-રીડાયરેક્ટ
+                setTimeout(() => {
+                    executeAutoRedirect();
+                }, 2000);
             }
         }, 1000);
 
-        // ૩. Play TeraBox Link બટન ક્લિક થતાં
-        function handleFinalRedirect() {
-            if (countdown <= 0) {
-                // નવી ટેબમાં Ad 1 ખૂલશે
-                window.open(AD_LINK_FINAL, '_blank');
+        // ૩. બટન ક્લિક (૧૦ સેકન્ડ પહેલાં કે પછી)
+        function handleButtonClick() {
+            if (countdown > 0) {
+                // ૧૦ સેકન્ડ પહેલાં ક્લિક કરે તો Ad 1 ખૂલશે
+                window.open(AD_LINK_1, '_blank');
+            } else {
+                // ૧૦ સેકન્ડ પછી ક્લિક કરે તો ડાયરેક્ટ રીડાયરેક્ટ
+                executeAutoRedirect();
+            }
+        }
 
-                // સીધી TeraBox App ઓપન કરવા માટે
-                const cleanUrl = rawTerabox.replace(/^https?:\/\//, '');
+        // ૪. રીડાયરેક્ટ + બેકઅપ એડ ઓપન લોજિક
+        function executeAutoRedirect() {
+            if (redirected) return;
+            redirected = true;
 
-                // પદ્ધતિ 1: App Scheme
-                window.location.href = `terabox://${cleanUrl}`;
+            // બેકઅપમાં Ad 1 ની ટેબ ખૂલશે
+            window.open(AD_LINK_1, '_blank');
 
-                // પદ્ધતિ 2: Android Intent
+            // મેઈન સ્ક્રીન TeraBox / Diskwala લિંક પર જશે
+            const cleanUrl = rawTarget.replace(/^https?:\/\//, '');
+
+            if (rawTarget.includes("terabox") || rawTarget.includes("1024tera")) {
+                // TeraBox App Intent
+                window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTarget)};end`;
                 setTimeout(() => {
-                    window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTerabox)};end`;
-                }, 400);
-
-                // પદ્ધતિ 3: Fallback બ્રાઉઝર
-                setTimeout(() => {
-                    window.location.href = rawTerabox;
-                }, 1200);
+                    window.location.href = rawTarget;
+                }, 1000);
+            } else {
+                // Diskwala કે અન્ય લિંક
+                window.location.href = rawTarget;
             }
         }
     </script>
