@@ -3,292 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Video Streamer</title>
-
+    <title>Watch Video Online</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
         body {
-            background-color: #0b1120;
+            background-color: #0e1621;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
-            padding: 16px;
-            text-align: center;
+            padding: 15px;
         }
-        .card {
-            background-color: #1e293b;
-            border-radius: 18px;
-            padding: 24px 20px;
-            max-width: 400px;
+        .ad-container {
             width: 100%;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.65);
-            border: 1px solid #334155;
+            max-width: 480px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        .badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
+        .main-card {
+            background-color: #17212b;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 12px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid #242f3d;
+        }
+        .video-icon {
+            font-size: 48px;
             margin-bottom: 12px;
-            letter-spacing: 0.5px;
         }
-        h2 {
+        h1 {
             font-size: 20px;
-            margin-bottom: 6px;
-            color: #f8fafc;
-            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
         }
-        p.sub-text {
-            font-size: 13px;
-            color: #94a3b8;
-            margin-bottom: 20px;
+        p {
+            font-size: 14px;
+            color: #7f91a4;
+            margin-bottom: 22px;
             line-height: 1.4;
         }
-
-        /* Real Robot Captcha Style Box */
-        .captcha-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #0f172a;
-            border: 1.5px solid #475569;
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .captcha-box:hover {
-            border-color: #38bdf8;
-            background: #131d33;
-        }
-        .captcha-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .checkbox {
-            width: 26px;
-            height: 26px;
-            border: 2px solid #64748b;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #1e293b;
-            transition: all 0.2s ease;
-        }
-        .checkbox-checked {
-            border-color: #22c55e !important;
-            background: #22c55e !important;
-        }
-        .checkmark {
-            display: none;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .captcha-text {
-            font-size: 14px;
-            font-weight: 600;
-            color: #e2e8f0;
-            text-align: left;
-        }
-        .captcha-right {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.7;
-        }
-        .captcha-right svg {
-            width: 24px;
-            height: 24px;
-        }
-        .captcha-right span {
-            font-size: 9px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-
-        /* Small Minimalist Timer */
-        .timer-wrapper {
-            margin: 14px 0 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #cbd5e1;
-        }
-        .timer-tag {
-            background: #0f172a;
-            color: #f59e0b;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 8px;
-            border: 1px solid #f59e0b33;
-            font-size: 13px;
-        }
-
-        /* Play Button */
-        .play-btn {
+        .btn {
             display: block;
             width: 100%;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 8px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: bold;
             text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            background-color: #334155;
-            color: #94a3b8;
-        }
-        .play-btn.active {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #ffffff;
-            box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45);
-            animation: pulse 1.5s infinite;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .play-btn.active:active {
-            transform: scale(0.98);
+        .btn-watch {
+            background: linear-gradient(135deg, #0088cc, #006699);
+            margin-bottom: 12px;
         }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        .btn-watch:hover {
+            opacity: 0.9;
+        }
+        .btn-open {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+        }
+        .btn-open:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <span class="badge">FAST HD STREAM</span>
-        <h2>Video Link Ready</h2>
-        <p class="sub-text">Complete Quick Verification to Play Video</p>
-
-        <!-- Captcha Verification Box (Ad 2 Link) -->
-        <div class="captcha-box" id="captchaBox" onclick="handleCaptchaClick()">
-            <div class="captcha-left">
-                <div class="checkbox" id="captchaCheck">
-                    <span class="checkmark" id="checkIcon">✓</span>
-                </div>
-                <div class="captcha-text" id="captchaLabel">I'm not a robot (Verify)</div>
-            </div>
-            <div class="captcha-right">
-                <svg viewBox="0 0 24 24" fill="#38bdf8">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2v-2zm0-10h2v8h-2V6z"/>
-                </svg>
-                <span>Security</span>
-            </div>
-        </div>
-
-        <!-- Small Minimalist Timer (10s) -->
-        <div class="timer-wrapper">
-            <span>Video Link unlocks in:</span>
-            <span class="timer-tag" id="timer">10s</span>
-        </div>
-
-        <!-- Play TeraBox Link Button (Ad 1 Link / Target) -->
-        <button id="actionBtn" class="play-btn" onclick="handleButtonClick()">
-            ▶️ Play TeraBox Link
-        </button>
+    <!-- ૧. વિડીયો બોક્સની ઉપરની જાહેરાત (TOP AD) -->
+    <div class="ad-container">
+        <script async="async" data-cfasync="false" src="https://pl31328388.profitableratecpmnetwork.com/05157e07859ebd78aea003cca5776386/invoke.js"></script>
+        <div id="container-05157e07859ebd78aea003cca5776386"></div>
     </div>
 
-    <script>
-        const AD_LINK_1 = "https://onepyrincehyarey.org?6CH0e=1720010"; // Play Button / Backup Ad
-        const AD_LINK_2 = "https://onepyrincehyarey.org?8JjHw=1161684"; // Captcha Ad
+    <!-- ૨. મુખ્ય વિડીયો કન્ટેન્ટ બોક્સ -->
+    <div class="main-card">
+        <div class="video-icon">🎬</div>
+        <h1>Exclusive Video Ready</h1>
+        <p>Click below to stream or open your requested video link instantly.</p>
         
-        // URL માંથી Target Link ખેંચવી (TeraBox, Diskwala વગેરે)
+        <a id="watchBtn" href="#" class="btn btn-watch" target="_blank">▶️ WATCH NOW</a>
+        <a id="openBtn" href="#" class="btn btn-open" target="_blank">⚡ FAST DOWNLOAD</a>
+    </div>
+
+    <!-- ૩. વિડીયો બોક્સની નીચેની જાહેરાત (BOTTOM AD) -->
+    <div class="ad-container">
+        <script async="async" data-cfasync="false" src="https://pl31328456.profitableratecpmnetwork.com/db5b58698f870a856916ae32efd01faa/invoke.js"></script>
+        <div id="container-db5b58698f870a856916ae32efd01faa"></div>
+    </div>
+
+    <!-- યુઝરે બોટમાંથી મોકલેલી લિંક ઓટો-સેટ કરવાની સ્ક્રિપ્ટ -->
+    <script>
         const urlParams = new URLSearchParams(window.location.search);
         const targetUrl = urlParams.get('url');
-        const rawTarget = targetUrl ? decodeURIComponent(targetUrl) : "https://terabox.com";
 
-        // ૧. કેપ્ચા પર ક્લિક થતાં Ad 2 ખૂલશે
-        let isVerified = false;
-        function handleCaptchaClick() {
-            if (!isVerified) {
-                isVerified = true;
-                window.open(AD_LINK_2, '_blank');
-                
-                document.getElementById('captchaCheck').classList.add('checkbox-checked');
-                document.getElementById('checkIcon').style.display = 'block';
-                document.getElementById('captchaLabel').innerText = "Verified Successfully!";
-                document.getElementById('captchaLabel').style.color = "#34d399";
-            }
-        }
-
-        // ૨. ૧૦ સેકન્ડ ટાઈમર કાઉન્ટડાઉન
-        let countdown = 10;
-        let redirected = false;
-        const timerElement = document.getElementById('timer');
-        const actionBtn = document.getElementById('actionBtn');
-
-        const interval = setInterval(() => {
-            countdown--;
-            if (countdown > 0) {
-                timerElement.innerText = `${countdown}s`;
-            } else {
-                clearInterval(interval);
-                timerElement.innerText = "Redirecting...";
-                timerElement.style.color = "#10b981";
-                actionBtn.classList.add('active');
-                actionBtn.innerText = "▶️ Opening Video...";
-
-                // ૧૦ સેકન્ડ પૂરી થતાં જ ૨ સેકન્ડમાં ઓટો-રીડાયરેક્ટ
-                setTimeout(() => {
-                    executeAutoRedirect();
-                }, 2000);
-            }
-        }, 1000);
-
-        // ૩. બટન ક્લિક (૧૦ સેકન્ડ પહેલાં કે પછી)
-        function handleButtonClick() {
-            if (countdown > 0) {
-                // ૧૦ સેકન્ડ પહેલાં ક્લિક કરે તો Ad 1 ખૂલશે
-                window.open(AD_LINK_1, '_blank');
-            } else {
-                // ૧૦ સેકન્ડ પછી ક્લિક કરે તો ડાયરેક્ટ રીડાયરેક્ટ
-                executeAutoRedirect();
-            }
-        }
-
-        // ૪. રીડાયરેક્ટ + બેકઅપ એડ ઓપન લોજિક
-        function executeAutoRedirect() {
-            if (redirected) return;
-            redirected = true;
-
-            // બેકઅપમાં Ad 1 ની ટેબ ખૂલશે
-            window.open(AD_LINK_1, '_blank');
-
-            // મેઈન સ્ક્રીન TeraBox / Diskwala લિંક પર જશે
-            const cleanUrl = rawTarget.replace(/^https?:\/\//, '');
-
-            if (rawTarget.includes("terabox") || rawTarget.includes("1024tera")) {
-                // TeraBox App Intent
-                window.location.href = `intent://${cleanUrl}#Intent;scheme=https;package=com.dubox.drive;S.browser_fallback_url=${encodeURIComponent(rawTarget)};end`;
-                setTimeout(() => {
-                    window.location.href = rawTarget;
-                }, 1000);
-            } else {
-                // Diskwala કે અન્ય લિંક
-                window.location.href = rawTarget;
-            }
+        if (targetUrl) {
+            document.getElementById('watchBtn').href = targetUrl;
+            document.getElementById('openBtn').href = targetUrl;
+        } else {
+            document.getElementById('watchBtn').href = "https://telegram.org";
+            document.getElementById('openBtn').href = "https://telegram.org";
         }
     </script>
+
+    <!-- ૪. હાઇ-CPM સોશિયલ બાર / પોપ સ્ક્રિપ્ટ -->
+    <script src="https://pl31328457.profitableratecpmnetwork.com/01/4c/cb/014ccb880bbe4db5aeb75a2f85d0e618.js"></script>
 </body>
 </html>
