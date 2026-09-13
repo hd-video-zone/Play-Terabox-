@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watch Video Online</title>
+    <!-- Adsterra સર્વર સાથે વહેલું કનેક્શન સ્થાપવા -->
+    <link rel="preconnect" href="https://pl31328388.profitableratecpmnetwork.com" crossorigin>
+    <link rel="preconnect" href="https://pl31328456.profitableratecpmnetwork.com" crossorigin>
+    <link rel="preconnect" href="https://pl31328457.profitableratecpmnetwork.com" crossorigin>
     <style>
         * {
             box-sizing: border-box;
@@ -24,10 +28,13 @@
         .ad-container {
             width: 100%;
             max-width: 480px;
-            margin: 12px 0;
+            margin: 10px 0;
+            min-height: 120px; /* જગ્યા અગાઉથી રાખી દેશે જેથી પેજ સ્પીડમાં ખુલે */
             display: flex;
             justify-content: center;
             align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
             overflow: hidden;
         }
         .main-card {
@@ -66,33 +73,25 @@
             color: #ffffff;
             cursor: pointer;
             border: none;
-            transition: 0.2s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         .btn-watch {
             background: linear-gradient(135deg, #0088cc, #006699);
             margin-bottom: 12px;
         }
-        .btn-watch:hover {
-            opacity: 0.9;
-        }
         .btn-open {
             background: linear-gradient(135deg, #28a745, #1e7e34);
-        }
-        .btn-open:hover {
-            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <!-- ૧. વિડીયો બોક્સની ઉપરની જાહેરાત (TOP AD) -->
+    <!-- ૧. વિડીયો બોક્સની ઉપરની એડ -->
     <div class="ad-container">
-        <script async="async" data-cfasync="false" src="https://pl31328388.profitableratecpmnetwork.com/05157e07859ebd78aea003cca5776386/invoke.js"></script>
         <div id="container-05157e07859ebd78aea003cca5776386"></div>
     </div>
 
-    <!-- ૨. મુખ્ય વિડીયો કન્ટેન્ટ બોક્સ -->
+    <!-- ૨. મુખ્ય બોક્સ (આ તરત જ સ્ક્રીન પર દેખાઈ જશે) -->
     <div class="main-card">
         <div class="video-icon">🎬</div>
         <h1>Exclusive Video Ready</h1>
@@ -102,27 +101,40 @@
         <a id="openBtn" href="#" class="btn btn-open" target="_blank">⚡ FAST DOWNLOAD</a>
     </div>
 
-    <!-- ૩. વિડીયો બોક્સની નીચેની જાહેરાત (BOTTOM AD) -->
+    <!-- ૩. વિડીયો બોક્સની નીચેની એડ -->
     <div class="ad-container">
-        <script async="async" data-cfasync="false" src="https://pl31328456.profitableratecpmnetwork.com/db5b58698f870a856916ae32efd01faa/invoke.js"></script>
         <div id="container-db5b58698f870a856916ae32efd01faa"></div>
     </div>
 
-    <!-- યુઝરે બોટમાંથી મોકલેલી લિંક ઓટો-સેટ કરવાની સ્ક્રિપ્ટ -->
+    <!-- ફાસ્ટ લિંક રીડાયરેક્ટ સ્ક્રિપ્ટ -->
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetUrl = urlParams.get('url');
-
-        if (targetUrl) {
-            document.getElementById('watchBtn').href = targetUrl;
-            document.getElementById('openBtn').href = targetUrl;
-        } else {
-            document.getElementById('watchBtn').href = "https://telegram.org";
-            document.getElementById('openBtn').href = "https://telegram.org";
-        }
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetUrl = urlParams.get('url');
+            const fallback = "https://telegram.org";
+            const finalLink = targetUrl ? targetUrl : fallback;
+            document.getElementById('watchBtn').href = finalLink;
+            document.getElementById('openBtn').href = finalLink;
+        })();
     </script>
 
-    <!-- ૪. હાઇ-CPM સોશિયલ બાર / પોપ સ્ક્રિપ્ટ -->
-    <script src="https://pl31328457.profitableratecpmnetwork.com/01/4c/cb/014ccb880bbe4db5aeb75a2f85d0e618.js"></script>
+    <!-- એડ્સને સ્પીડમાં બેકગ્રાઉન્ડમાં લોડ કરવા માટેનો સુધારેલો લોડર -->
+    <script>
+        function loadAdScript(src) {
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.dataset.cfasync = "false";
+            document.body.appendChild(s);
+        }
+
+        // પેજ રેડી થાય કે તરત જ બેકગ્રાઉન્ડમાં ત્રણેય એડ સ્ક્રિપ્ટ લોડ થશે (પેજને અટકાવ્યા વગર)
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAdScript("https://pl31328388.profitableratecpmnetwork.com/05157e07859ebd78aea003cca5776386/invoke.js");
+            loadAdScript("https://pl31328456.profitableratecpmnetwork.com/db5b58698f870a856916ae32efd01faa/invoke.js");
+            loadAdScript("https://pl31328457.profitableratecpmnetwork.com/01/4c/cb/014ccb880bbe4db5aeb75a2f85d0e618.js");
+        });
+    </script>
+
 </body>
 </html>
